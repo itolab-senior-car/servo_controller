@@ -1,0 +1,16 @@
+<launch>
+  <arg name="min_steering_servo_angle" default="55" />
+  <arg name="mid_steering_servo_angle" default="85" />
+  <arg name="max_steering_servo_angle" default="105" />
+  <arg name="min_accel_servo_angle" default="0" />
+  <arg name="max_accel_servo_angle" default="35" />
+
+  <node pkg="servo_controller" type="servo_controller"
+        name="servo_controller" output="screen">
+    <param name="min_steering_servo_angle" value="$(arg min_steering_servo_angle)"/>
+    <param name="mid_steering_servo_angle" value="$(arg mid_steering_servo_angle)"/>
+    <param name="max_steering_servo_angle" value="$(arg max_steering_servo_angle)"/>
+    <param name="min_accel_servo_angle" value="$(arg min_accel_servo_angle)"/>
+    <param name="max_accel_servo_angle" value="$(arg max_accel_servo_angle)"/>
+  </node>
+</launch>
