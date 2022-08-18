@@ -4,5 +4,6 @@ int main(int argc, char **argv)
 {
   ros::init(argc, argv, "servo_controller");
   servo_controller_node::ServoControllerNode node;
+  node.Run();
   ros::spin();
 }

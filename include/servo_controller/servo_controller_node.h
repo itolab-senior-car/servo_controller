@@ -16,7 +16,8 @@ namespace servo_controller_node
   class ServoControllerNode
   {
   public:
-    ServoControllerNode();
+    // ServoControllerNode();
+    void Run();
   private:
     ros::NodeHandle nh;
     std::shared_ptr<servo_controller::Servo> servo_controller_ptr;
@@ -34,6 +35,13 @@ namespace servo_controller_node
     ros::Subscriber shinkuma_spread_sub;
     //ros::Subscriber stop_sub;
     int test;
+
+    int min_steering_servo_angle = 55;//1027_steering_servomin_65
+    int mid_steering_servo_angle = 84;//1027_steering_servomidle_85
+    int max_steering_servo_angle = 105;//1027_steering_servomax_101
+    int min_accel_servo_angle = 0;
+    int max_accel_servo_angle = 50;
+
 
     void ndtStatCallback(const autoware_msgs::NDTStatConstPtr& msg);
     void pointClusterCallback(const itolab_senior_car_msgs::DetectedObjectArrayConstPtr& msg);

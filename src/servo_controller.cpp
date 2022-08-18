@@ -84,11 +84,14 @@ namespace servo_controller
   {
     static auto lim_steer = limitServoAngle();
     static auto lim_accel = limitServoAngle();
-    uint8_t raw_steering = m_config.mid_steering_angle//前引く今を符号そのまま足す閾値値は頑張って出す;
+    uint8_t raw_steering = m_config.mid_steering_angle;//前引く今を符号そのまま足す閾値値は頑張って出す;
     Control out;
+
     if (in.reverse == false){
+      std::cout << "foward" << std::endl;
       raw_steering = in.steering;
     }else{
+      std::cout << "back" << std::endl;
       raw_steering = (m_config.mid_steering_angle - in.steering) + m_config.mid_steering_angle;
     }
     out.steering = lim_steer(raw_steering, m_config.min_steering_limit,

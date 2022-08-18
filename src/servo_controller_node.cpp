@@ -2,8 +2,7 @@
 #include <std_msgs/Bool.h>
 namespace servo_controller_node
 {
-  ServoControllerNode::ServoControllerNode()
-    : nh()
+  void ServoControllerNode::Run()
   {
     ndt_stat_sub = nh.subscribe("ndt_stat", 1, &ServoControllerNode::ndtStatCallback, this);
     cluster_sub = nh.subscribe("lidar_detected_object", 1, &ServoControllerNode::pointClusterCallback, this);
@@ -13,19 +12,26 @@ namespace servo_controller_node
     servo_pub = nh.advertise<itolab_senior_car_msgs::Servo>("servo_cmd", 5);
     shinkuma_spread_sub = nh.subscribe("shinkuma_spread", 1, &ServoControllerNode::shinkumaCallback, this);
 
-    int min_steering = 72;//1027_steering_servomin_65
-    int mid_steering = 92;//1027_steering_servomidle_85
-    int max_steering = 108;//1027_steering_servomax_101
-    int min_accel = 0;
-    int max_accel = 50;
-    
+
+    nh.getParam("min_steering_servo_angle", min_steering_servo_angle);
+    nh.getParam("mid_steering_servo_angle", mid_steering_servo_angle);
+    nh.getParam("max_steering_servo_angle", max_steering_servo_angle);
+    nh.getParam("min_accel_servo_angle", min_accel_servo_angle);
+    nh.getParam("max_accel_servo_angle", max_accel_servo_angle);
+
+    ROS_INFO("min_steering_servo_angle is %d", min_steering_servo_angle);
+    ROS_INFO("mid_steering_servo_angle is %d", mid_steering_servo_angle);
+    ROS_INFO("max_steering_servo_angle is %d", max_steering_servo_angle);
+    ROS_INFO("min_accel_servo_angle is %d", min_accel_servo_angle);
+    ROS_INFO("max_accel_servo_angle is %d", max_accel_servo_angle);
+
 
     servo_controller::Configuration config;
-    config.min_steering_limit = static_cast<uint8_t>(min_steering);
-    config.mid_steering_angle = static_cast<uint8_t>(mid_steering);
-    config.max_steering_limit = static_cast<uint8_t>(max_steering);
-    config.min_accel_limit = static_cast<uint8_t>(min_accel);
-    config.max_accel_limit = static_cast<uint8_t>(max_accel);
+    config.min_steering_limit = static_cast<uint8_t>(min_steering_servo_angle);
+    config.mid_steering_angle = static_cast<uint8_t>(mid_steering_servo_angle);
+    config.max_steering_limit = static_cast<uint8_t>(max_steering_servo_angle);
+    config.min_accel_limit = static_cast<uint8_t>(min_accel_servo_angle);
+    config.max_accel_limit = static_cast<uint8_t>(max_accel_servo_angle);
 
     servo_controller_ptr = std::make_shared<servo_controller::Servo>(config);
   }
@@ -72,7 +78,7 @@ namespace servo_controller_node
         servo_pub.publish(out);
       }else{
         ROS_ERROR("NDT matching is flying!");
-        out.steering = 82;
+        out.steering = mid_steering_servo_angle;
         out.accel = 0;
         servo_pub.publish(out);
       }
