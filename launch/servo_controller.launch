@@ -1,9 +1,9 @@
 <launch>
-  <arg name="min_steering_servo_angle" default="55" />
+  <arg name="min_steering_servo_angle" default="59" />
   <arg name="mid_steering_servo_angle" default="84" />
   <arg name="max_steering_servo_angle" default="109" />
   <arg name="min_accel_servo_angle" default="0" />
-  <arg name="max_accel_servo_angle" default="35" />
+  <arg name="max_accel_servo_angle" default="50" />
 
   <node pkg="servo_controller" type="servo_controller"
         name="servo_controller" output="screen">

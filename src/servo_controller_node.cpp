@@ -1,5 +1,6 @@
 #include "servo_controller/servo_controller_node.h"
 #include <std_msgs/Bool.h>
+
 namespace servo_controller_node
 {
   void ServoControllerNode::Run()
@@ -12,12 +13,12 @@ namespace servo_controller_node
     servo_pub = nh.advertise<itolab_senior_car_msgs::Servo>("servo_cmd", 5);
     shinkuma_spread_sub = nh.subscribe("shinkuma_spread", 1, &ServoControllerNode::shinkumaCallback, this);
 
-
-    nh.getParam("min_steering_servo_angle", min_steering_servo_angle);
-    nh.getParam("mid_steering_servo_angle", mid_steering_servo_angle);
-    nh.getParam("max_steering_servo_angle", max_steering_servo_angle);
-    nh.getParam("min_accel_servo_angle", min_accel_servo_angle);
-    nh.getParam("max_accel_servo_angle", max_accel_servo_angle);
+    ros::NodeHandle private_nh("~");
+    private_nh.getParam("min_steering_servo_angle", min_steering_servo_angle);
+    private_nh.getParam("mid_steering_servo_angle", mid_steering_servo_angle);
+    private_nh.getParam("max_steering_servo_angle", max_steering_servo_angle);
+    private_nh.getParam("min_accel_servo_angle", min_accel_servo_angle);
+    private_nh.getParam("max_accel_servo_angle", max_accel_servo_angle);
 
     ROS_INFO("min_steering_servo_angle is %d", min_steering_servo_angle);
     ROS_INFO("mid_steering_servo_angle is %d", mid_steering_servo_angle);

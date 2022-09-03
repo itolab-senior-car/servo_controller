@@ -42,7 +42,6 @@ namespace servo_controller_node
     int min_accel_servo_angle = 0;
     int max_accel_servo_angle = 50;
 
-
     void ndtStatCallback(const autoware_msgs::NDTStatConstPtr& msg);
     void pointClusterCallback(const itolab_senior_car_msgs::DetectedObjectArrayConstPtr& msg);
     void twistCmdCallback(const geometry_msgs::TwistStampedConstPtr& msg);
